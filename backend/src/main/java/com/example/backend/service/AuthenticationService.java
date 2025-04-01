@@ -36,7 +36,7 @@ public class AuthenticationService implements UserDetailsService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.READER)
+                .role(Role.ROLE_READER)
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

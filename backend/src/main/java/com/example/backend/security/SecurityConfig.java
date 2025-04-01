@@ -32,7 +32,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**", "/error").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/posts").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/posts/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/posts/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
