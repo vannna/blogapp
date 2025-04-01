@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/posts/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/posts/*/comments").permitAll()
                         .requestMatchers("/api/v1/posts/*/comments").authenticated()
+                        .requestMatchers("/api/v1/posts/*/likes/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
