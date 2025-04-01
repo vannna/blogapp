@@ -28,6 +28,10 @@ public class AuthenticationService implements UserDetailsService {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already in use");
         }
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new RuntimeException("Username already in use");
+        }
+
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -36,23 +40,34 @@ public class AuthenticationService implements UserDetailsService {
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
+
         return AuthResponseDto.builder()
                 .token(jwtToken)
+                .username(user.getUsername())
+                .role(user.getRole().toString())
                 .build();
     }
 
     public AuthResponseDto authenticate(UserLoginDto request) {
-        authenticationProvider.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationProvider.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid username or password");
+        }
+
         var user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow();
+                .orElseThrow(() -> new RuntimeException("User not found"));
         var jwtToken = jwtService.generateToken(user);
+
         return AuthResponseDto.builder()
                 .token(jwtToken)
+                .username(user.getUsername())
+                .role(user.getRole().toString())
                 .build();
     }
 

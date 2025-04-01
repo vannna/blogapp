@@ -25,25 +25,46 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response); // Skip JWT processing
-            return;
-        }
-
-        // Extract and validate JWT
-        String jwt = authHeader.substring(7);
-        String username = jwtService.extractUsername(jwt);
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+        try {
+            final String authHeader = request.getHeader("Authorization");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return;
             }
-        }
 
-        filterChain.doFilter(request, response);
+            final String jwt = extractJwtFromHeader(authHeader);
+            final String username = jwtService.extractUsername(jwt);
+
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                processAuthentication(request, jwt, username);
+            }
+
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Authentication failed: " + e.getMessage());
+        }
+    }
+
+    private String extractJwtFromHeader(String authHeader) {
+        return authHeader.substring(7);
+    }
+
+    private void processAuthentication(HttpServletRequest request, String jwt, String username) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (jwtService.isTokenValid(jwt, userDetails)) {
+            UsernamePasswordAuthenticationToken authToken = createAuthenticationToken(userDetails, request);
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
+    }
+
+    private UsernamePasswordAuthenticationToken createAuthenticationToken(UserDetails userDetails, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        return authToken;
     }
 }
