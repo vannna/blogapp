@@ -8,20 +8,26 @@ import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private final AuthenticationProvider authenticationProvider;
 
     public AuthResponseDto register(UserRegistrationDto request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email already in use");
+        }
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -36,7 +42,7 @@ public class AuthenticationService {
     }
 
     public AuthResponseDto authenticate(UserLoginDto request) {
-        authenticationManager.authenticate(
+        authenticationProvider.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
@@ -48,5 +54,12 @@ public class AuthenticationService {
         return AuthResponseDto.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 }

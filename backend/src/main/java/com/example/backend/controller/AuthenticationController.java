@@ -1,34 +1,24 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.AuthResponseDto;
-import com.example.backend.dto.UserLoginDto;
 import com.example.backend.dto.UserRegistrationDto;
 import com.example.backend.service.AuthenticationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> register(
-            @RequestBody UserRegistrationDto request
-    ) {
-        return ResponseEntity.ok(authenticationService.register(request));
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthResponseDto> authenticate(
-            @RequestBody UserLoginDto request
-    ) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponseDto> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
+        AuthResponseDto response = authenticationService.register(userRegistrationDto);
+        return ResponseEntity.ok(response);
     }
 }
