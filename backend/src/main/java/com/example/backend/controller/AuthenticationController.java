@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.AuthResponseDto;
+import com.example.backend.dto.UserLoginDto;
 import com.example.backend.dto.UserRegistrationDto;
 import com.example.backend.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
@@ -21,4 +22,11 @@ public class AuthenticationController {
         AuthResponseDto response = authenticationService.register(userRegistrationDto);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDto> loginUser(@RequestBody UserLoginDto userLoginDto) {
+        AuthResponseDto response = authenticationService.authenticate(userLoginDto);
+        return ResponseEntity.ok(response);
+    }
+
 }
