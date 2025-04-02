@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.LikeDto;
+import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class LikeController {
 
     @PostMapping
     public ResponseEntity<LikeDto> createLike(@PathVariable Long postId) {
+        if (postId == null) {
+            throw new ResourceNotFoundException("Post ID is required");
+        }
         return ResponseEntity.ok(likeService.createLike(postId));
     }
 

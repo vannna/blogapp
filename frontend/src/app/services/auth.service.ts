@@ -51,7 +51,7 @@ export class AuthService {
 
   private handleAuthResponse(response: AuthResponse): void {
     localStorage.setItem('access_token', response.token);
-    localStorage.setItem('user', JSON.stringify(response.username));
+    localStorage.setItem('user', JSON.stringify(response));
   }
 
   logout(): void {

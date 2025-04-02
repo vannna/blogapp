@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommentService } from '../../services/comment.service';
+import {catchError, throwError} from "rxjs";
 
 @Component({
   selector: 'app-comment-list',
@@ -16,9 +17,12 @@ export class CommentListComponent implements OnInit {
 
   ngOnInit() {
     if (this.postId) {
-      this.commentService.getComments(this.postId).subscribe(data => {
-        this.comments = data;
-      });
+      this.commentService.getComments(this.postId).pipe(
+        catchError(err => {
+          alert(err.message);
+          return throwError(() => err);
+        })
+      ).subscribe(data => this.comments = data);
     }
   }
 }

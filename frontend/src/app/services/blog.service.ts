@@ -3,6 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { BlogPost } from '../models/blog-post.model';
 import { Observable, catchError, throwError } from 'rxjs';
+import {BlogPostCreate} from "../models/blog-post-create.model";
+import { BlogPostUpdate } from '../models/blog-post-update.model';
+
 
 interface CreatePostDTO {
   title: string;
@@ -31,15 +34,11 @@ export class BlogService {
     );
   }
 
-  createPost(post: BlogPost): Observable<BlogPost> {
-    const postData = {
-      title: post.title,
-      content: post.content
-    };
-    return this.http.post<BlogPost>(`${this.apiUrl}/posts`, postData);
+  createPost(post: BlogPostCreate): Observable<BlogPost> {
+    return this.http.post<BlogPost>(`${this.apiUrl}/posts`, post);
   }
 
-  updatePost(id: number, post: UpdatePostDTO): Observable<BlogPost> {
+  updatePost(id: number, post: BlogPostUpdate): Observable<BlogPost> {
     return this.http.put<BlogPost>(`${this.apiUrl}/${id}`, post).pipe(
       catchError(this.handleError)
     );
@@ -53,10 +52,12 @@ export class BlogService {
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';
-    if (error.status === 404) {
+    if (error.status === 400 && error.error.errors) {
+      errorMessage = Object.values(error.error.errors).join(', ');
+    } else if (error.status === 404) {
       errorMessage = 'Post not found';
     } else if (error.status === 403) {
-      errorMessage = 'You are not authorized to perform this action';
+      errorMessage = 'Unauthorized';
     }
     return throwError(() => new Error(errorMessage));
   }
