@@ -9,7 +9,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => { // Use HttpIn
     const cloned = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
     });
-    return next(cloned); // Use HttpHandlerFn (no .handle())
+    return next(cloned);
   }
   return next(req);
 };

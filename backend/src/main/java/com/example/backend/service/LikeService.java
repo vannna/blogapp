@@ -59,10 +59,14 @@ public class LikeService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-    public void deleteLike(Long blogPostId) {
+    // LikeService.java
+    public void deleteLike(Long postId, Long likeId) {
         User currentUser = getCurrentUser();
-        Like like = likeRepository.findByAuthorIdAndBlogPostId(currentUser.getId(), blogPostId)
+        Like like = likeRepository.findByIdAndAuthorId(likeId, currentUser.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Like not found"));
+        if (!like.getBlogPost().getId().equals(postId)) {
+            throw new ResourceNotFoundException("Like does not belong to this post");
+        }
         likeRepository.delete(like);
     }
 
