@@ -1,1 +1,15 @@
-<p>post-create works!</p>
+<form (ngSubmit)="onSubmit()">
+  <input
+    [(ngModel)]="post.title"
+    name="title"
+    placeholder="Title"
+    required
+  >
+  <textarea
+    [(ngModel)]="post.content"
+    name="content"
+    placeholder="Content"
+    required
+  ></textarea>
+  <button type="submit">Publish</button>
+</form>

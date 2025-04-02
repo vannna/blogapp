@@ -1,1 +1,15 @@
-<p>post-detail works!</p>
+<div *ngIf="post">
+  <h1>{{ post.title }}</h1>
+  <p>{{ post.content }}</p>
+  <small>By {{ post.author }}</small>
+
+  <!-- Comment Form -->
+  <input [(ngModel)]="newComment" placeholder="Add a comment">
+  <button (click)="addComment()">Submit</button>
+
+  <!-- Display Comments -->
+  <div *ngFor="let comment of comments">
+    <strong>{{ comment.author }}</strong>
+    <p>{{ comment.content }}</p>
+  </div>
+</div>

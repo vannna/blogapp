@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CommentService } from '../../services/comment.service';
 
 @Component({
   selector: 'app-comment-list',
-  templateUrl: './comment-list.component.html'
+  templateUrl: './comment-list.component.html',
+  standalone: true,
+  imports: [CommonModule]
 })
 export class CommentListComponent implements OnInit {
   @Input() postId!: number;
@@ -12,6 +15,10 @@ export class CommentListComponent implements OnInit {
   constructor(private commentService: CommentService) {}
 
   ngOnInit() {
-    this.commentService.getComments(this.postId).subscribe(data => this.comments = data);
+    if (this.postId) {
+      this.commentService.getComments(this.postId).subscribe(data => {
+        this.comments = data;
+      });
+    }
   }
 }
