@@ -59,18 +59,12 @@ export class AuthService {
     localStorage.removeItem('user');
   }
 
-  setToken(token: string) {
-    localStorage.setItem('authToken', token);
-  }
-
   getToken(): string | null {
     return localStorage.getItem('access_token');
   }
 
   isLoggedIn(): boolean {
-    const token = this.getToken();
-    if (!token) return false;
-    return true;
+    return !!this.getToken();
   }
 
   getCurrentUserRole(): string | null {

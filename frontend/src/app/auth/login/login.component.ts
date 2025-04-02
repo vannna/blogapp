@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService, LoginCredentials, AuthResponse } from '../../services/auth.service';
+import { AuthService, LoginCredentials } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -22,8 +22,7 @@ export class LoginComponent {
   onSubmit() {
     this.auth.login(this.credentials).subscribe({
       next: () => {
-        this.router.navigate(['/']);
-      },
+        this.router.navigate(['/']).then(() => {});      },
       error: (err) => alert(err.message)
     });
   }

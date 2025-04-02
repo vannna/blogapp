@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +58,6 @@ public class LikeService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-    // LikeService.java
     public void deleteLike(Long postId, Long likeId) {
         User currentUser = getCurrentUser();
         Like like = likeRepository.findByIdAndAuthorId(likeId, currentUser.getId())
