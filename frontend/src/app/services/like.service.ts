@@ -16,7 +16,7 @@ export class LikeService {
     );
   }
 
-  checkLike(postId: number): Observable<boolean> {
+  hasUserLikedPost(postId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/${postId}/likes/check`).pipe(
       catchError(this.handleError)
     );

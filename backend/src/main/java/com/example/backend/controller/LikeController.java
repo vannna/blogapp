@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Tag(name = "Likes", description = "API for managing likes")
 @RestController
@@ -80,5 +79,37 @@ public class LikeController {
     ) {
         likeService.deleteLike(postId, likeId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    @Operation(
+            summary = "Toggle a like (create/delete)",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Like created"),
+                    @ApiResponse(responseCode = "204", description = "Like deleted"),
+                    @ApiResponse(responseCode = "404", description = "Post not found")
+            }
+    )
+    public ResponseEntity<Void> toggleLike(@PathVariable Long postId) {
+        try {
+            likeService.toggleLike(postId); // Calls the new method
+            return ResponseEntity.noContent().build(); // Assume success
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @Operation(
+            summary = "Get like count for a post",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Count retrieved"),
+                    @ApiResponse(responseCode = "404", description = "Post not found",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))
+                    )
+            }
+    )
+    @GetMapping("/count")
+    public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
+        return ResponseEntity.ok(likeService.getLikeCount(postId));
     }
 }

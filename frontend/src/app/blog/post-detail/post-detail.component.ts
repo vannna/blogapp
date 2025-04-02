@@ -7,12 +7,13 @@ import { CommentService } from '../../services/comment.service';
 import { AuthService } from '../../services/auth.service';
 import { BlogPost } from '../../models/blog-post.model';
 import { Comment } from '../../models/comment.model';
+import {LikeButtonComponent} from "../../likes/like-button/like-button.component";
 
 @Component({
   selector: 'app-post-detail',
   templateUrl: './post-detail.component.html',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink] // Ensure RouterLink is imported [[2]]
+  imports: [CommonModule, FormsModule, RouterLink, LikeButtonComponent] // Ensure RouterLink is imported [[2]]
 })
 export class PostDetailComponent implements OnInit {
   post: BlogPost | null = null;

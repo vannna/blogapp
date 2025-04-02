@@ -10,4 +10,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     List<Like> findByBlogPostId(Long blogPostId);
     boolean existsByAuthorIdAndBlogPostId(Long authorId, Long blogPostId);
     Optional<Like> findByIdAndAuthorId(Long likeId, Long authorId);
+    long countByBlogPostId(Long blogPostId);
+    void deleteByAuthorIdAndBlogPostId(Long authorId, Long blogPostId);
 }

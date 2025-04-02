@@ -35,15 +35,6 @@ public class LikeService {
         return convertToDto(likeRepository.save(like));
     }
 
-    public List<LikeDto> getLikesByBlogPostId(Long blogPostId) {
-        if (!blogPostRepository.existsById(blogPostId)) {
-            throw new ResourceNotFoundException("Blog post not found with id: " + blogPostId);
-        }
-        return likeRepository.findByBlogPostId(blogPostId).stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-    }
-
     private LikeDto convertToDto(Like like) {
         return LikeDto.builder()
                 .id(like.getId())
@@ -71,5 +62,21 @@ public class LikeService {
     public boolean hasUserLikedPost(Long blogPostId) {
         User currentUser = getCurrentUser();
         return likeRepository.existsByAuthorIdAndBlogPostId(currentUser.getId(), blogPostId);
+    }
+
+    public void toggleLike(Long postId) {
+        boolean liked = hasUserLikedPost(postId);
+        if (liked) {
+            likeRepository.deleteByAuthorIdAndBlogPostId(
+                    getCurrentUser().getId(),
+                    postId
+            );
+        } else {
+            createLike(postId);
+        }
+    }
+
+    public long getLikeCount(Long postId) {
+        return likeRepository.countByBlogPostId(postId); // Uses existing method
     }
 }
