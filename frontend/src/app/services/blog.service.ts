@@ -4,6 +4,17 @@ import { environment } from '../../environments/environment';
 import { BlogPost } from '../models/blog-post.model';
 import { Observable, catchError, throwError } from 'rxjs';
 import { BlogPostCreate } from "../models/blog-post-create.model";
+import { BlogPostUpdate } from '../models/blog-post-update.model';
+
+
+interface CreatePostDTO {
+  title: string;
+  content: string;
+}
+
+interface UpdatePostDTO extends CreatePostDTO {
+  id: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class BlogService {
@@ -25,6 +36,18 @@ export class BlogService {
 
   createPost(post: BlogPostCreate): Observable<BlogPost> {
     return this.http.post<BlogPost>(`${this.apiUrl}/posts`, post);
+  }
+
+  updatePost(id: number, post: BlogPostUpdate): Observable<BlogPost> {
+    return this.http.put<BlogPost>(`${this.apiUrl}/${id}`, post).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deletePost(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

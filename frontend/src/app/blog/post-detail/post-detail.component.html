@@ -2,6 +2,8 @@
   <h1>{{ post.title }}</h1>
   <p>{{ post.content }}</p>
   <small>By {{ post.authorUsername }}</small>
+  <button *ngIf="isCurrentUserAuthor()" [routerLink]="['/posts/edit', post.id]">Edit Post</button>
+  <button *ngIf="isCurrentUserAuthor()" (click)="deletePost()">Delete Post</button>
 
   <!-- Comment Form -->
   <input [(ngModel)]="newComment" placeholder="Add a comment">
