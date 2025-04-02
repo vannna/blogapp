@@ -29,4 +29,9 @@ public class LikeController {
     public ResponseEntity<List<LikeDto>> getLikesByBlogPostId(@PathVariable Long postId) {
         return ResponseEntity.ok(likeService.getLikesByBlogPostId(postId));
     }
+
+    @GetMapping("/check")
+    public ResponseEntity<Boolean> hasUserLikedPost(@PathVariable Long postId) {
+        return ResponseEntity.ok(likeService.hasUserLikedPost(postId));
+    }
 }

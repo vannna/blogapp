@@ -16,6 +16,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.backend.exception.DuplicateResourceException;
+
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
@@ -26,10 +29,10 @@ public class AuthenticationService implements UserDetailsService {
 
     public AuthResponseDto register(UserRegistrationDto request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already in use");
+            throw new DuplicateResourceException("Email already in use");
         }
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username already in use");
+            throw new DuplicateResourceException("Username already in use");
         }
 
         var user = User.builder()

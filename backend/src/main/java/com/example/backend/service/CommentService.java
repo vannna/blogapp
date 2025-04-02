@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.CommentDto;
 import com.example.backend.entity.BlogPost;
 import com.example.backend.entity.Comment;
+import com.example.backend.entity.Role;
 import com.example.backend.entity.User;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.repository.BlogPostRepository;
@@ -12,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -63,4 +65,21 @@ public class CommentService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
+
+    public void deleteComment(Long postId, Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Comment not found"));
+
+        if (!comment.getBlogPost().getId().equals(postId)) {
+            throw new ResourceNotFoundException("Comment does not belong to this post");
+        }
+
+        User currentUser = getCurrentUser();
+        if (!comment.getAuthor().equals(currentUser) && !currentUser.getRole().equals(Role.ROLE_ADMIN)) {
+            throw new AccessDeniedException("You can only delete your own comments");
+        }
+
+        commentRepository.delete(comment);
+    }
+
 }

@@ -26,4 +26,12 @@ public class CommentController {
     public ResponseEntity<List<CommentDto>> getCommentsByBlogPostId(@PathVariable Long postId) {
         return ResponseEntity.ok(commentService.getCommentsByBlogPostId(postId));
     }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComment(
+            @PathVariable Long postId,
+            @PathVariable Long commentId) {
+        commentService.deleteComment(postId, commentId);
+        return ResponseEntity.noContent().build();
+    }
 }

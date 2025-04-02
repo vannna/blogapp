@@ -28,18 +28,11 @@ public class LikeService {
     public LikeDto createLike(Long blogPostId) {
         User currentUser = getCurrentUser();
         BlogPost blogPost = blogPostRepository.findById(blogPostId)
-                .orElseThrow(() -> new ResourceNotFoundException("Blog post not found with id: " + blogPostId));
-
-        if (likeRepository.existsByAuthorIdAndBlogPostId(currentUser.getId(), blogPostId)) {
-            throw new ResourceNotFoundException("User has already liked this post");
-        }
-
+                .orElseThrow(() -> new ResourceNotFoundException("Blog post not found"));
         Like like = Like.builder()
                 .author(currentUser)
                 .blogPost(blogPost)
-                .createdAt(LocalDateTime.now())
                 .build();
-
         return convertToDto(likeRepository.save(like));
     }
 
