@@ -15,6 +15,7 @@ import java.util.List;
 public class BlogPostController {
     private final BlogPostService blogPostService;
 
+    @PreAuthorize("hasRole('ROLE_AUTHOR') OR hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<BlogPostDto> createBlogPost(@Valid @RequestBody BlogPostDto blogPostDto) {
         return ResponseEntity.ok(blogPostService.createBlogPost(blogPostDto));
@@ -30,6 +31,7 @@ public class BlogPostController {
         return ResponseEntity.ok(blogPostService.getBlogPostById(id));
     }
 
+    @PreAuthorize("hasRole('ROLE_AUTHOR') OR hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<BlogPostDto> updateBlogPost(
             @PathVariable Long id,
@@ -37,6 +39,7 @@ public class BlogPostController {
         return ResponseEntity.ok(blogPostService.updateBlogPost(id, blogPostDto));
     }
 
+    @PreAuthorize("hasRole('ROLE_AUTHOR') OR hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBlogPost(@PathVariable Long id) {
         blogPostService.deleteBlogPost(id);

@@ -31,10 +31,12 @@ export class BlogService {
     );
   }
 
-  createPost(post: CreatePostDTO): Observable<BlogPost> {
-    return this.http.post<BlogPost>(this.apiUrl, post).pipe(
-      catchError(this.handleError)
-    );
+  createPost(post: BlogPost): Observable<BlogPost> {
+    const postData = {
+      title: post.title,
+      content: post.content
+    };
+    return this.http.post<BlogPost>(`${this.apiUrl}/posts`, postData);
   }
 
   updatePost(id: number, post: UpdatePostDTO): Observable<BlogPost> {

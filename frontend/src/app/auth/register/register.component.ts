@@ -18,15 +18,10 @@ export class RegisterComponent {
 
   onSubmit() {
     this.auth.register(this.user).subscribe({
-      next: (response: AuthResponse) => {
-        localStorage.setItem('authToken', response.token);
-        localStorage.setItem('user', JSON.stringify({
-          username: response.user.username,
-          role: response.user.role
-        }));
+      next: () => {
         this.router.navigate(['/']);
       },
-      error: (err) => alert('Registration failed')
+      error: (err) => alert(err.message)
     });
   }
 }

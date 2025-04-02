@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/posts/{postId}/comments")
+@RequestMapping("/api/v1/posts/{postId}/comments") // Base path
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
 
-    @PostMapping
+    @PostMapping // Corrected path
     public ResponseEntity<CommentDto> createComment(
             @PathVariable Long postId,
             @Valid @RequestBody CommentDto commentDto) {
@@ -27,11 +27,11 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getCommentsByBlogPostId(postId));
     }
 
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/{commentId}") // Corrected path
     public ResponseEntity<Void> deleteComment(
-            @PathVariable Long postId,
-            @PathVariable Long commentId) {
-        commentService.deleteComment(postId, commentId);
+            @PathVariable Long commentId) { // postId is already captured from class-level path
+        Long postId = (Long) request.getAttribute("postId"); // Extract postId from class-level path
+        commentService.deleteComment(postId, commentId); // Pass both
         return ResponseEntity.noContent().build();
     }
 }

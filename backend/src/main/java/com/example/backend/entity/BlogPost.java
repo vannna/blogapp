@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -33,5 +34,6 @@ public class BlogPost {
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 }

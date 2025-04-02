@@ -3,11 +3,13 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
-import { AuthInterceptor } from './app/interceptors/auth.interceptor';
+import { authInterceptor } from './app/interceptors/auth.interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([AuthInterceptor]))
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    )
   ]
 }).catch(err => console.error(err));

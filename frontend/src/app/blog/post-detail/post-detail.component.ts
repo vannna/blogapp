@@ -33,10 +33,20 @@ export class PostDetailComponent implements OnInit {
 
   addComment() {
     if (!this.post) return;
-    this.commentService.addComment(this.post.id, this.newComment)
-      .subscribe(comment => {
-        this.comments.push(comment);
-        this.newComment = '';
+    const commentDto = { content: this.newComment };
+    this.commentService.addComment(this.post.id, commentDto)
+      .subscribe({
+        next: (comment) => {
+          this.comments.push(comment);
+          this.newComment = '';
+        },
+        error: (error) => {
+          if (error.status === 403) {
+            alert('Please login to comment');
+          } else {
+            alert('Error adding comment');
+          }
+        }
       });
   }
 

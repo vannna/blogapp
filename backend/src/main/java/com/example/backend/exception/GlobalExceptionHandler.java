@@ -44,8 +44,8 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
-        ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value(), "Validation failed", errors);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiError(HttpStatus.BAD_REQUEST.value(), "Validation failed", errors));
     }
 
     @ExceptionHandler(BadCredentialsException.class)

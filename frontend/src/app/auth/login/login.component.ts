@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
 import { AuthService, LoginCredentials, AuthResponse } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class LoginComponent {
   credentials: LoginCredentials = { username: '', password: '' };
@@ -18,15 +21,10 @@ export class LoginComponent {
 
   onSubmit() {
     this.auth.login(this.credentials).subscribe({
-      next: (response: AuthResponse) => {
-        localStorage.setItem('authToken', response.token);
-        localStorage.setItem('user', JSON.stringify({
-          username: response.user.username,
-          role: response.user.role
-        }));
+      next: () => {
         this.router.navigate(['/']);
       },
-      error: (err) => alert('Login failed')
+      error: (err) => alert(err.message)
     });
   }
 }

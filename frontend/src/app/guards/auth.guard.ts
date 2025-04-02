@@ -8,7 +8,8 @@ export const AuthGuard: CanActivateFn = (route) => {
 
   if (!authService.getToken()) return false;
 
-  if (requiredRole && authService.getCurrentUserRole() !== requiredRole) {
+  const userRole = authService.getCurrentUserRole();
+  if (requiredRole && userRole !== requiredRole) {
     alert('You do not have permission to access this page');
     return false;
   }

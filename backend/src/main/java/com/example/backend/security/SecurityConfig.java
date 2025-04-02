@@ -37,9 +37,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/admin/**").hasAuthority(Role.ROLE_ADMIN.name())                        .requestMatchers(HttpMethod.POST, "/api/v1/posts").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/v1/posts/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/posts/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/posts/*/comments").permitAll()
-                        .requestMatchers("/api/v1/posts/*/comments").authenticated()
-                        .requestMatchers("/api/v1/posts/*/likes/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/posts/{id}/comments").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/posts/{id}/comments/{commentId}").authenticated()
+                        .requestMatchers("/api/v1/posts/{id}/likes/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

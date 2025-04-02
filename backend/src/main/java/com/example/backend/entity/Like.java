@@ -26,5 +26,6 @@ public class Like {
     @JoinColumn(name = "blog_post_id", nullable = false)
     private BlogPost blogPost;
 
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }

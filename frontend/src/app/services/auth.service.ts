@@ -16,12 +16,9 @@ export interface RegisterUser {
 
 export interface AuthResponse {
   token: string;
-  user: {
-    id: number;
-    username: string;
-    email: string;
-    role: string;
-  };
+  username: string;
+  role: string;
+  email: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -54,13 +51,16 @@ export class AuthService {
 
   private handleAuthResponse(response: AuthResponse): void {
     localStorage.setItem('access_token', response.token);
-    localStorage.setItem('user', JSON.stringify(response.user));
+    localStorage.setItem('user', JSON.stringify(response.username));
   }
 
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
-    // You might want to navigate to login page here
+  }
+
+  setToken(token: string) {
+    localStorage.setItem('authToken', token);
   }
 
   getToken(): string | null {
@@ -70,7 +70,6 @@ export class AuthService {
   isLoggedIn(): boolean {
     const token = this.getToken();
     if (!token) return false;
-    // Add token expiration check if your token includes exp claim
     return true;
   }
 

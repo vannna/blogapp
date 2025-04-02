@@ -1,7 +1,7 @@
 <div *ngIf="post">
   <h1>{{ post.title }}</h1>
   <p>{{ post.content }}</p>
-  <small>By {{ post.author }}</small>
+  <small>By {{ post.authorUsername }}</small>
 
   <!-- Comment Form -->
   <input [(ngModel)]="newComment" placeholder="Add a comment">
@@ -9,7 +9,7 @@
 
   <!-- Display Comments -->
   <div *ngFor="let comment of comments">
-    <strong>{{ comment.author }}</strong>
+    <strong>{{ comment.authorUsername }}</strong>
     <p>{{ comment.content }}</p>
   </div>
 </div>

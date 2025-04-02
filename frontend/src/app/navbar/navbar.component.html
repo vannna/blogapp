@@ -2,10 +2,10 @@
   <ul class="nav-list">
     <ng-container *ngIf="authService.isLoggedIn()">
       <li>
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a [routerLink]="'/'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       </li>
       <li *ngIf="authService.getCurrentUserRole() === 'ROLE_AUTHOR'">
-        <a routerLink="/create" routerLinkActive="active" class="btn">Create Post</a>
+        <a [routerLink]="'/create'" routerLinkActive="active" class="btn">Create Post</a>
       </li>
       <li>
         <button type="button" (click)="authService.logout()" aria-label="Logout">Logout</button>
@@ -13,10 +13,10 @@
     </ng-container>
     <ng-container *ngIf="!authService.isLoggedIn()">
       <li>
-        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a [routerLink]="'/login'" routerLinkActive="active">Login</a>
       </li>
       <li>
-        <a routerLink="/register" routerLinkActive="active">Register</a>
+        <a [routerLink]="'/register'" routerLinkActive="active">Register</a>
       </li>
     </ng-container>
   </ul>
