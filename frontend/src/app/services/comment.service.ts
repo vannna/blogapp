@@ -8,10 +8,6 @@ interface CreateCommentDTO {
   content: string;
 }
 
-interface UpdateCommentDTO extends CreateCommentDTO {
-  id: number;
-}
-
 @Injectable({ providedIn: 'root' })
 export class CommentService {
   private readonly apiUrl = `${environment.apiUrl}/posts`;
@@ -32,12 +28,6 @@ export class CommentService {
 
   addComment(postId: number, comment: CreateCommentDTO): Observable<Comment> {
     return this.http.post<Comment>(`${this.apiUrl}/${postId}/comments`, comment).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  updateComment(postId: number, commentId: number, comment: UpdateCommentDTO): Observable<Comment> {
-    return this.http.put<Comment>(`${this.apiUrl}/${postId}/comments/${commentId}`, comment).pipe(
       catchError(this.handleError)
     );
   }

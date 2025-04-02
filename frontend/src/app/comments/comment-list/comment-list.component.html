@@ -2,4 +2,9 @@
   <strong>{{ comment.authorUsername }}</strong>
   <p>{{ comment.content }}</p>
   <small>{{ comment.createdAt | date }}</small>
+  <button
+    *ngIf="isCurrentUserAuthorOfComment(comment)"
+    (click)="deleteComment(comment.id)">
+    Delete
+  </button>
 </div>

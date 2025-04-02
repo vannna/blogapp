@@ -83,4 +83,17 @@ export class PostDetailComponent implements OnInit {
       userRole === 'ROLE_ADMIN'
     );
   }
+
+  isCurrentUserAuthorOfComment(comment: Comment): boolean {
+    const user = this.authService.getCurrentUser();
+    return comment.authorUsername === user?.username;
+  }
+
+  deleteComment(commentId: number) {
+    if (confirm('Are you sure?')) {
+      this.commentService.deleteComment(this.post!.id, commentId).subscribe(() => {
+        this.comments = this.comments.filter(comment => comment.id !== commentId);
+      });
+    }
+  }
 }
