@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
                 "  \"token\": \"eyJhbGciOiJIUzI1Ni...\",\n" + // Example JWT token
                 "  \"username\": \"john_doe\",\n" +
                 "  \"role\": \"ROLE_READER\",\n" +
-                "  \"email\": \"john@example.com\"\n" +
                 "}"
 )
 public class AuthResponseDto {
