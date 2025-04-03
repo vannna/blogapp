@@ -1,0 +1,33 @@
+.comment {
+  padding: 10px 0;
+  margin: 10px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.comment:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+.comment-author {
+  font-weight: bold;
+}
+
+.comment-date {
+  color: #666;
+  font-size: 0.8em;
+}
+
+.delete-button {
+  background: #e6ebf1;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.delete-button:hover {
+  color: red;
+  text-decoration: underline;
+}

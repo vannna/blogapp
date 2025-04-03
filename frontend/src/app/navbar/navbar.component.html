@@ -1,0 +1,26 @@
+<nav class="navbar">
+  <div class="left-section">
+    <a href="http://localhost:8080/swagger-ui.html" target="_blank" class="api-docs-link">API Docs</a>
+  </div>
+
+  <div class="center-section">
+    <a routerLink="/" class="logo" routerLinkActive="active">BlogAssignment</a>
+  </div>
+
+  <div class="right-section">
+    <ul class="nav-list">
+      <li *ngIf="authService.isLoggedIn()">
+        <a routerLink="/create" routerLinkActive="active" class="btn">Create Post</a>
+      </li>
+      <li *ngIf="!authService.isLoggedIn()">
+        <a routerLink="/login" class="btn">Login</a>
+      </li>
+      <li *ngIf="!authService.isLoggedIn()">
+        <a routerLink="/register" class="btn">Register</a>
+      </li>
+      <li *ngIf="authService.isLoggedIn()">
+        <button type="button" (click)="authService.logout()" class="btn">Logout</button>
+      </li>
+    </ul>
+  </div>
+</nav>

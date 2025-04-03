@@ -1,5 +1,35 @@
-<form (ngSubmit)="onSubmit()">
-  <input [(ngModel)]="credentials.username" name="username" placeholder="Username" required>
-  <input [(ngModel)]="credentials.password" type="password" name="password" placeholder="Password" required>
-  <button type="submit">Login</button>
-</form>
+<div class="login-container">
+  <div class="form-card">
+    <h2>Login</h2>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="credentials.username"
+          required
+          minlength="3"
+          class="form-input"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="credentials.password"
+          required
+          minlength="6"
+          class="form-input"
+        >
+      </div>
+
+      <button type="submit" class="primary-button">Login</button>
+      <p class="error-message" *ngIf="loginForm.submitted && loginForm.errors">Invalid credentials</p>
+    </form>
+  </div>
+</div>

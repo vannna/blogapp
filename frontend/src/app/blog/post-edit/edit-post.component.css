@@ -1,0 +1,65 @@
+.edit-post-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.edit-post-form:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.title-input {
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.content-textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.primary-button {
+  padding: 14px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 25px;
+}
+
+.primary-button:hover {
+  background: #1565c0;
+}
+
+.danger-button {
+  padding: 12px 20px;
+  background: #e53935;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.danger-button:hover {
+  background: #c62828;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.like-section {
+  margin-bottom: 20px;
+}
