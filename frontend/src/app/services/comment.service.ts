@@ -20,12 +20,6 @@ export class CommentService {
     );
   }
 
-  getCommentById(postId: number, commentId: number): Observable<Comment> {
-    return this.http.get<Comment>(`${this.apiUrl}/${postId}/comments/${commentId}`).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   addComment(postId: number, comment: CreateCommentDTO): Observable<Comment> {
     return this.http.post<Comment>(`${this.apiUrl}/${postId}/comments`, comment).pipe(
       catchError(this.handleError)

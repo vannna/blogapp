@@ -1,4 +1,6 @@
-<button (click)="toggleLike()">
-  {{ isLiked ? 'Unlike' : 'Like' }}
-</button>
-<span> {{ likeCount }} likes </span>
+<div class="like-button-container">
+  <button class="like-button" (click)="toggleLike()" [class.liked]="isLiked">
+    {{ isLiked ? 'Unlike' : 'Like' }}
+  </button>
+  <span class="like-count">{{ likeCount }} likes</span>
+</div>

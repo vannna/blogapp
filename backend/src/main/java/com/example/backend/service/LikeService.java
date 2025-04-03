@@ -10,11 +10,10 @@ import com.example.backend.repository.LikeRepository;
 import com.example.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,8 +52,10 @@ public class LikeService {
         User currentUser = getCurrentUser();
         Like like = likeRepository.findByIdAndAuthorId(likeId, currentUser.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Like not found"));
-        if (!like.getBlogPost().getId().equals(postId)) {
-            throw new ResourceNotFoundException("Like does not belong to this post");
+        if (!like.getAuthor().getUsername().equals(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+        )) {
+            throw new AccessDeniedException("You can’t delete this like");
         }
         likeRepository.delete(like);
     }
@@ -77,6 +78,6 @@ public class LikeService {
     }
 
     public long getLikeCount(Long postId) {
-        return likeRepository.countByBlogPostId(postId); // Uses existing method
+        return likeRepository.countByBlogPostId(postId);
     }
 }

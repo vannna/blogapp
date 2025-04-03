@@ -20,7 +20,7 @@ public class CommentDto {
 
     @NotBlank(message = "Comment content cannot be empty")
     @Size(min = 1, max = 1000, message = "Comment must be between 1 and 1000 characters")
-    @Schema(description = "Comment text", example = "Great post!", required = true)
+    @Schema(description = "Comment text", example = "Great post!")
     private String content;
 
     @Schema(description = "Author's username", example = "user123")

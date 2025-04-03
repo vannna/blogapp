@@ -6,12 +6,16 @@ export const AuthGuard: CanActivateFn = (route) => {
   const authService = inject(AuthService);
   const requiredRole = route.data['role'] as string;
 
-  if (!authService.getToken()) return false;
+  if (!authService.isLoggedIn()) {
+    alert('Login required');
+    return false;
+  }
 
   const userRole = authService.getCurrentUserRole();
   if (requiredRole && userRole !== requiredRole) {
     alert('You do not have permission to access this page');
     return false;
   }
+
   return true;
 };

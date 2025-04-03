@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Schema(
         description = "Authentication response details",
         example = "{\n" +
-                "  \"token\": \"eyJhbGciOiJIUzI1Ni...\",\n" + // Example JWT token
+                "  \"token\": \"eyJhbGciOiJIUzI1Ni...\",\n" +
                 "  \"username\": \"john_doe\",\n" +
                 "  \"role\": \"ROLE_READER\",\n" +
                 "}"

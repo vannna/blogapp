@@ -1,24 +1,26 @@
 <nav class="navbar">
-  <ul class="nav-list">
-    <ng-container *ngIf="authService.isLoggedIn()">
-      <li>
-        <a [routerLink]="'/'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+  <div class="left-section">
+    <a href="http://localhost:8080/swagger-ui.html" target="_blank" class="api-docs-link">API Docs</a>
+  </div>
+
+  <div class="center-section">
+    <a routerLink="/" class="logo" routerLinkActive="active">BlogAssignment</a>
+  </div>
+
+  <div class="right-section">
+    <ul class="nav-list">
+      <li *ngIf="authService.isLoggedIn()">
+        <a routerLink="/create" routerLinkActive="active" class="btn">Create Post</a>
       </li>
-      <li *ngIf="authService.getCurrentUserRole() === 'ROLE_AUTHOR'">
-        <a [routerLink]="'/create'" routerLinkActive="active" class="btn">Create Post</a>
+      <li *ngIf="!authService.isLoggedIn()">
+        <a routerLink="/login" class="btn">Login</a>
       </li>
-      <li>
-        <button type="button" (click)="authService.logout()" aria-label="Logout">Logout</button>
+      <li *ngIf="!authService.isLoggedIn()">
+        <a routerLink="/register" class="btn">Register</a>
       </li>
-    </ng-container>
-    <ng-container *ngIf="!authService.isLoggedIn()">
-      <li>
-        <a [routerLink]="'/login'" routerLinkActive="active">Login</a>
+      <li *ngIf="authService.isLoggedIn()">
+        <button type="button" (click)="authService.logout()" class="btn">Logout</button>
       </li>
-      <li>
-        <a [routerLink]="'/register'" routerLinkActive="active">Register</a>
-      </li>
-    </ng-container>
-    <a href="http://localhost:8080/swagger-ui.html" target="_blank">API Docs</a>
-  </ul>
+    </ul>
+  </div>
 </nav>

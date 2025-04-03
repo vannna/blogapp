@@ -16,10 +16,10 @@ public class BlogPostDto {
     @Schema(description = "Post ID", example = "1")
     private Long id;
 
-    @Schema(description = "Post title", example = "My First Post", required = true)
+    @Schema(description = "Post title", example = "My First Post")
     private String title;
 
-    @Schema(description = "Post content", example = "Hello, world!", required = true)
+    @Schema(description = "Post content", example = "Hello, world!")
     private String content;
 
     @Schema(description = "Author's username", example = "author123")

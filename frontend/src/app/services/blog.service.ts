@@ -7,15 +7,6 @@ import { BlogPostCreate } from "../models/blog-post-create.model";
 import { BlogPostUpdate } from '../models/blog-post-update.model';
 
 
-interface CreatePostDTO {
-  title: string;
-  content: string;
-}
-
-interface UpdatePostDTO extends CreatePostDTO {
-  id: number;
-}
-
 @Injectable({ providedIn: 'root' })
 export class BlogService {
   private readonly apiUrl = `${environment.apiUrl}/posts`;

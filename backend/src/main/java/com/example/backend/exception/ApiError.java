@@ -13,15 +13,13 @@ import java.util.Map;
 public class ApiError {
     @Schema(
             description = "HTTP status code",
-            example = "400",
-            required = true
+            example = "400"
     )
     private int status;
 
     @Schema(
             description = "Error message",
-            example = "Validation failed",
-            required = true
+            example = "Validation failed"
     )
     private String message;
 

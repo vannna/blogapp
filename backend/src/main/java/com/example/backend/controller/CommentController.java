@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class CommentController {
             }
     )
     @PostMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<CommentDto> createComment(
             @Parameter(hidden = true) @PathVariable Long postId, // Inferred from path
             @Parameter(description = "Comment details", required = true)
@@ -71,6 +73,7 @@ public class CommentController {
             }
     )
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<CommentDto>> getCommentsByBlogPostId(
             @Parameter(description = "Post ID", example = "1", required = true)
             @PathVariable Long postId
@@ -98,6 +101,7 @@ public class CommentController {
             }
     )
     @DeleteMapping("/{commentId}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> deleteComment(
             @Parameter(description = "Post ID", example = "1", required = true)
             @PathVariable Long postId,
@@ -105,7 +109,7 @@ public class CommentController {
             @Parameter(description = "Comment ID", example = "2", required = true)
             @PathVariable Long commentId
     ) {
-        commentService.deleteComment(postId, commentId); // Ensure service uses both IDs
+        commentService.deleteComment(postId, commentId);
         return ResponseEntity.noContent().build();
     }
 }

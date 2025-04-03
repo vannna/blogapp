@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,11 +24,11 @@ public class LikeController {
     private final LikeService likeService;
 
     @Operation(
-            summary = "Toggle a like for a post",
+            summary = "Create a like",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Like toggled",
+                            description = "Like created",
                             content = @Content(schema = @Schema(implementation = LikeDto.class))
                     ),
                     @ApiResponse(
@@ -43,15 +44,13 @@ public class LikeController {
             }
     )
     @PostMapping
-    public ResponseEntity<LikeDto> createLike(
-            @Parameter(description = "Post ID", example = "1", required = true)
-            @PathVariable Long postId
-    ) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<LikeDto> createLike(@PathVariable Long postId) {
         return ResponseEntity.ok(likeService.createLike(postId));
     }
 
     @Operation(
-            summary = "Delete a like",
+            summary = "Delete a like by ID",
             responses = {
                     @ApiResponse(
                             responseCode = "204",
@@ -70,30 +69,24 @@ public class LikeController {
             }
     )
     @DeleteMapping("/{likeId}")
-    public ResponseEntity<Void> deleteLike(
-            @Parameter(description = "Post ID", example = "1", required = true)
-            @PathVariable Long postId,
-
-            @Parameter(description = "Like ID", example = "2", required = true)
-            @PathVariable Long likeId
-    ) {
+    public ResponseEntity<Void> deleteLike(@PathVariable Long postId, @PathVariable Long likeId) {
         likeService.deleteLike(postId, likeId);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
     @Operation(
             summary = "Toggle a like (create/delete)",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Like created"),
-                    @ApiResponse(responseCode = "204", description = "Like deleted"),
+                    @ApiResponse(responseCode = "204", description = "Like toggled"),
                     @ApiResponse(responseCode = "404", description = "Post not found")
             }
     )
+    @PostMapping("/toggle")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> toggleLike(@PathVariable Long postId) {
         try {
-            likeService.toggleLike(postId); // Calls the new method
-            return ResponseEntity.noContent().build(); // Assume success
+            likeService.toggleLike(postId);
+            return ResponseEntity.noContent().build();
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(404).build();
         }
@@ -103,11 +96,14 @@ public class LikeController {
             summary = "Get like count for a post",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Count retrieved"),
-                    @ApiResponse(responseCode = "404", description = "Post not found",
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Post not found",
                             content = @Content(schema = @Schema(implementation = ApiError.class))
                     )
             }
     )
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/count")
     public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
         return ResponseEntity.ok(likeService.getLikeCount(postId));

@@ -22,6 +22,6 @@ export const routes: Routes = [
     path: 'posts/edit/:id',
     component: EditPostComponent,
     canActivate: [AuthGuard],
-    data: { role: 'ROLE_AUTHOR' } // Only authors can edit
+    data: { role: 'ROLE_AUTHOR' }
   }
 ];

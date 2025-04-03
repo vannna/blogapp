@@ -1,10 +1,15 @@
 <div *ngFor="let comment of comments" class="comment">
-  <strong>{{ comment.authorUsername }}</strong>
-  <p>{{ comment.content }}</p>
-  <small>{{ comment.createdAt | date }}</small>
+  <div class="comment-content">
+    <strong class="comment-author">{{ comment.authorUsername }}</strong>
+    <p>{{ comment.content }}</p>
+    <small class="comment-date">{{ comment.createdAt | date }}</small>
+  </div>
+
   <button
     *ngIf="isCurrentUserAuthorOfComment(comment)"
-    (click)="deleteComment(comment.id)">
+    (click)="deleteComment(comment.id)"
+    class="delete-button"
+  >
     Delete
   </button>
 </div>
