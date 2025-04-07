@@ -25,31 +25,15 @@ public class AuthenticationController {
 
     @Operation(
             summary = "User registration",
-            description = "Creates a new user account",
             responses = {
-                    @ApiResponse(
-                            responseCode = "201",
-                            description = "User created",
-                            content = @Content(schema = @Schema(implementation = AuthResponseDto.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Validation error",
-                            content = @Content(schema = @Schema(implementation = ApiError.class))
-                    ),
-                    @ApiResponse(
-                            responseCode = "409",
-                            description = "Username/email already exists",
-                            content = @Content(schema = @Schema(implementation = ApiError.class))
-                    )
+                    @ApiResponse(responseCode = "201", description = "User created", content = @Content(schema = @Schema(implementation = AuthResponseDto.class))),
+                    @ApiResponse(responseCode = "400", description = "Validation error", content = @Content(schema = @Schema(implementation = ApiError.class))),
+                    @ApiResponse(responseCode = "409", description = "Duplicate username/email", content = @Content(schema = @Schema(implementation = ApiError.class)))
             }
     )
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> registerUser(
-            @Parameter(description = "User registration details", required = true)
-            @Valid @RequestBody UserRegistrationDto userRegistrationDto
-    ) {
-        AuthResponseDto response = authenticationService.register(userRegistrationDto);
+    public ResponseEntity<AuthResponseDto> register(@Valid @RequestBody UserRegistrationDto request) {
+        AuthResponseDto response = authenticationService.register(request);
         return ResponseEntity.status(201).body(response);
     }
 

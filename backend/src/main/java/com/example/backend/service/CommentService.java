@@ -76,7 +76,7 @@ public class CommentService {
 
         User currentUser = getCurrentUser();
         if (!comment.getAuthor().getId().equals(currentUser.getId()) &&
-                !currentUser.getRole().equals(Role.ROLE_ADMIN)) {
+                !currentUser.getRole().equals(Role.ROLE_AUTHOR)) {
             throw new AccessDeniedException("You can only delete your own comments");
         }
 

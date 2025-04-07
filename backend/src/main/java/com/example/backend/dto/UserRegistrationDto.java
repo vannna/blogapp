@@ -27,6 +27,7 @@ public class UserRegistrationDto {
     @Schema(description = "Password", example = "secure_password")
     private String password;
 
-    @Schema(description = "User role", example = "ROLE_AUTHOR")
-    private Role role;
+    @NotBlank(message = "Role is required")
+    @Pattern(regexp = "^(ROLE_AUTHOR|ROLE_READER)$", message = "Invalid role")
+    private String role;
 }

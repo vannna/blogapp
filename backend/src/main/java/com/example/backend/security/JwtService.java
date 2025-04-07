@@ -34,11 +34,11 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        User user = (User) userDetails; // Cast to User to access email and bio
+        User user = (User) userDetails;
         Map<String, Object> claims = new HashMap<>();
-        claims.put("email", user.getEmail()); // Add email to claims
-        claims.put("bio", user.getBio()); // Add bio to claims
-        claims.put("role", user.getRole().name()); // Use enum's name() for role
+        claims.put("email", user.getEmail());
+        claims.put("bio", user.getBio());
+        claims.put("role", user.getRole().name());
         return generateToken(claims, userDetails);
     }
 

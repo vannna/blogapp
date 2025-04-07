@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.AuthResponseDto;
 import com.example.backend.dto.UserLoginDto;
 import com.example.backend.dto.UserRegistrationDto;
+import com.example.backend.entity.Role;
 import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.security.JwtService;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.exception.DuplicateResourceException;
-
 
 @Service
 @RequiredArgsConstructor
@@ -34,11 +34,12 @@ public class AuthenticationService implements UserDetailsService {
             throw new DuplicateResourceException("Username already in use");
         }
 
+        Role userRole = Role.valueOf(request.getRole());
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(userRole)
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -46,7 +47,7 @@ public class AuthenticationService implements UserDetailsService {
         return AuthResponseDto.builder()
                 .token(jwtToken)
                 .username(user.getUsername())
-                .role(user.getRole().name())
+                .role(userRole.name())
                 .email(user.getEmail())
                 .build();
     }
