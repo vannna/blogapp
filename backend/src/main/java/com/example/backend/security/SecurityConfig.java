@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/posts/{id}/likes").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/posts/{id}/likes/toggle").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/posts/{id}/likes/{likeId}").authenticated()
+                        .requestMatchers("/api/v1/auth/**", "/error", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(basic -> basic.disable())
