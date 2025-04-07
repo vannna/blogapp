@@ -108,4 +108,10 @@ public class LikeController {
     public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
         return ResponseEntity.ok(likeService.getLikeCount(postId));
     }
+
+    @GetMapping("/check")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Boolean> hasUserLikedPost(@PathVariable Long postId) {
+        return ResponseEntity.ok(likeService.hasUserLikedPost(postId));
+    }
 }

@@ -6,24 +6,24 @@ import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LikeService {
-  private readonly apiUrl = `${environment.apiUrl}/posts`;
+  private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  toggleLike(postId: number): Observable<Like> {
-    return this.http.post<Like>(`${this.apiUrl}/${postId}/likes`, {}).pipe(
-      catchError(this.handleError)
+  toggleLike(postId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/posts/${postId}/likes/toggle`, {}).pipe(
+    catchError(this.handleError)
     );
   }
 
   hasUserLikedPost(postId: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/${postId}/likes/check`).pipe(
+    return this.http.get<boolean>(`${this.apiUrl}/posts/${postId}/likes/check`).pipe(
       catchError(this.handleError)
     );
   }
 
   getLikeCount(postId: number): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/${postId}/likes/count`).pipe(
+    return this.http.get<number>(`${this.apiUrl}/posts/${postId}/likes/count`).pipe(
       catchError(this.handleError)
     );
   }
