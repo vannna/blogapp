@@ -3,7 +3,6 @@ package com.example.backend.service;
 import com.example.backend.dto.AuthResponseDto;
 import com.example.backend.dto.UserLoginDto;
 import com.example.backend.dto.UserRegistrationDto;
-import com.example.backend.entity.Role;
 import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.security.JwtService;
@@ -39,7 +38,7 @@ public class AuthenticationService implements UserDetailsService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.ROLE_READER)
+                .role(request.getRole())
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -47,7 +46,8 @@ public class AuthenticationService implements UserDetailsService {
         return AuthResponseDto.builder()
                 .token(jwtToken)
                 .username(user.getUsername())
-                .role(user.getRole().toString())
+                .role(user.getRole().name())
+                .email(user.getEmail())
                 .build();
     }
 
@@ -70,7 +70,9 @@ public class AuthenticationService implements UserDetailsService {
         return AuthResponseDto.builder()
                 .token(jwtToken)
                 .username(user.getUsername())
+                .email(user.getEmail())
                 .role(user.getRole().toString())
+                .bio(user.getBio())
                 .build();
     }
 

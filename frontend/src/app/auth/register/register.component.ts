@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, FormsModule]
 })
 export class RegisterComponent {
-  user: RegisterUser = { username: '', email: '', password: '' };
+  user: RegisterUser = { username: '', email: '', password: '', role: 'ROLE_AUTHOR' };
 
   constructor(private auth: AuthService, private router: Router) {}
 

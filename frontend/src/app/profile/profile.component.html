@@ -1,0 +1,48 @@
+<div class="profile-container">
+  <div class="form-card">
+    <h2>Edit Profile</h2>
+    <form (ngSubmit)="updateProfile()" #profileForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="user.username"
+          class="form-input"
+          required
+          disabled
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="user.email"
+          class="form-input"
+          required
+          disabled
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea
+          id="bio"
+          name="bio"
+          [(ngModel)]="user.bio"
+          class="form-input"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="primary-button">Save Changes</button>
+      <p class="error-message" *ngIf="profileForm.submitted && profileForm.errors">
+        Validation failed
+      </p>
+    </form>
+  </div>
+</div>

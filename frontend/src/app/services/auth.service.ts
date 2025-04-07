@@ -12,6 +12,7 @@ export interface RegisterUser {
   username: string;
   email: string;
   password: string;
+  role: string;
 }
 
 export interface AuthResponse {
@@ -19,6 +20,7 @@ export interface AuthResponse {
   username: string;
   role: string;
   email: string;
+  bio: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -82,9 +84,25 @@ export class AuthService {
     const userStr = localStorage.getItem('user');
     if (!userStr) return null;
     try {
-      return JSON.parse(userStr);
+      const user = JSON.parse(userStr);
+      return {
+        token: user.token,
+        username: user.username,
+        role: user.role,
+        email: user.email,
+        bio: user.bio ?? ''
+      };
     } catch (e) {
       return null;
+    }
+  }
+
+  public updateCurrentUser(updatedUser: any): void {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      Object.assign(user, updatedUser); // Update existing user data
+      localStorage.setItem('user', JSON.stringify(user));
     }
   }
 }

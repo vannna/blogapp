@@ -20,3 +20,4 @@ A full-stack blog application with user authentication, post management, comment
 - Java 17+
 - Angular CLI
 - PostgreSQL database
+

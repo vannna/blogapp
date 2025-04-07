@@ -10,16 +10,18 @@
   <div class="right-section">
     <ul class="nav-list">
       <li *ngIf="authService.isLoggedIn()">
-        <a routerLink="/create" routerLinkActive="active" class="btn">Create Post</a>
+        <div class="user-profile">
+          <span class="username">{{ authService.getCurrentUser()?.username }}</span>
+          <p class="bio" *ngIf="authService.getCurrentUser()?.bio">
+            {{ authService.getCurrentUser()?.bio }}
+          </p>
+          <a routerLink="/profile" class="btn">Profile</a>
+          <button type="button" (click)="authService.logout()" class="btn">Logout</button>
+        </div>
       </li>
       <li *ngIf="!authService.isLoggedIn()">
         <a routerLink="/login" class="btn">Login</a>
-      </li>
-      <li *ngIf="!authService.isLoggedIn()">
         <a routerLink="/register" class="btn">Register</a>
-      </li>
-      <li *ngIf="authService.isLoggedIn()">
-        <button type="button" (click)="authService.logout()" class="btn">Logout</button>
       </li>
     </ul>
   </div>

@@ -1,5 +1,6 @@
 package com.example.backend.dto;
 
+import com.example.backend.entity.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,4 +26,7 @@ public class UserRegistrationDto {
     @Size(min = 6, max = 128)
     @Schema(description = "Password", example = "secure_password")
     private String password;
+
+    @Schema(description = "User role", example = "ROLE_AUTHOR")
+    private Role role;
 }

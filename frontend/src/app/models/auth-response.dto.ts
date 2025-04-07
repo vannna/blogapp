@@ -3,4 +3,5 @@ export interface AuthResponseDto {
   username: string;
   role: string;
   email: string;
+  bio?: string;
 }
