@@ -4,9 +4,8 @@
     <p>{{ post.content | slice:0:100 }}...</p>
     <small>
       By {{ post.authorUsername }} | {{ post.createdAt | date }}
-      *ngIf="authService.isLoggedIn()"
     </small>
-    <app-like-button [postId]="post.id"></app-like-button> <!-- [[10]] -->
+    <app-like-button [postId]="post.id"></app-like-button>
     <a [routerLink]="['/posts', post.id]" class="read-more">Read more</a>
   </div>
 </div>

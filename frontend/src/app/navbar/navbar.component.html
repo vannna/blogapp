@@ -14,7 +14,7 @@
           <span class="username">{{ authService.getCurrentUser()?.username }}</span>
           <a routerLink="/create" class="btn">Create Post</a>
           <a routerLink="/profile" class="btn">Profile</a>
-          <button type="button" (click)="authService.logout()" class="btn">Logout</button>
+          <button type="button" (click)="authService.logout()" class="btn logout-btn">Logout</button>
         </div>
       </li>
       <li *ngIf="!authService.isLoggedIn()">
