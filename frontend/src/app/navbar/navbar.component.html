@@ -12,9 +12,7 @@
       <li *ngIf="authService.isLoggedIn()">
         <div class="user-profile">
           <span class="username">{{ authService.getCurrentUser()?.username }}</span>
-          <p class="bio" *ngIf="authService.getCurrentUser()?.bio">
-            {{ authService.getCurrentUser()?.bio }}
-          </p>
+          <a routerLink="/create" class="btn">Create Post</a>
           <a routerLink="/profile" class="btn">Profile</a>
           <button type="button" (click)="authService.logout()" class="btn">Logout</button>
         </div>

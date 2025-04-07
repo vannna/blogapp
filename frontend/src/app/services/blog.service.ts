@@ -6,7 +6,6 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { BlogPostCreate } from "../models/blog-post-create.model";
 import { BlogPostUpdate } from '../models/blog-post-update.model';
 
-
 @Injectable({ providedIn: 'root' })
 export class BlogService {
   private readonly apiUrl = `${environment.apiUrl}/posts`;
@@ -26,7 +25,7 @@ export class BlogService {
   }
 
   createPost(post: BlogPostCreate): Observable<BlogPost> {
-    return this.http.post<BlogPost>(`${this.apiUrl}/posts`, post);
+    return this.http.post<BlogPost>(this.apiUrl, post); // Fix URL [[2]]
   }
 
   updatePost(id: number, post: BlogPostUpdate): Observable<BlogPost> {

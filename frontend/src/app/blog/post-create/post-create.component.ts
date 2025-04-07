@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { BlogService } from '../../services/blog.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { catchError, throwError } from 'rxjs';
 import { BlogPostCreate } from '../../models/blog-post-create.model';
 
 @Component({
@@ -20,12 +19,7 @@ export class PostCreateComponent {
 
   onSubmit() {
     this.formSubmitted = true;
-    this.blogService.createPost(this.post).pipe(
-      catchError((error) => {
-        alert(error.message);
-        return throwError(() => error);
-      })
-    ).subscribe({
+    this.blogService.createPost(this.post).subscribe({
       next: (newPost) => this.router.navigate(['/posts', newPost.id]),
       error: (err) => alert(err.message)
     });
